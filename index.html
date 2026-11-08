@@ -246,15 +246,13 @@ a.panel:hover .panel-big { color: var(--leather); }
 /* YouTube */
 .videos-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 18px 40px; margin-bottom: clamp(24px, 3.5vw, 44px); }
 .videos-head > div { display: grid; gap: 14px; max-width: 760px; }
-.video-list { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(18px, 2vw, 28px); }
-.video { grid-column: span 3; text-decoration: none; display: block; }
-.video-first { grid-column: span 6; grid-row: span 2; }
-.video-rest { grid-column: span 6; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 2vw, 28px); align-content: start; }
-.video-rest .video { grid-column: auto; }
+.video-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(18px, 2vw, 28px); }
+.video { text-decoration: none; display: block; }
 .video img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--panel-shade); }
-.video span { display: block; margin-top: 10px; font-weight: 600; line-height: 1.35; }
+.video.vertical img { object-fit: contain; background: var(--board); }
+.video span { display: block; margin-top: 12px; font-weight: 600; line-height: 1.35; }
+.video small { display: block; margin-top: 4px; font-size: .9375rem; color: var(--ink-soft); }
 .video:hover span { color: var(--leather); text-decoration: underline; text-underline-offset: 3px; }
-.video-first span { font-size: 1.25rem; }
 
 /* Location */
 .location { border-top: 1px solid rgba(0,0,0,.22); }
@@ -314,8 +312,7 @@ a.panel:hover .panel-big { color: var(--leather); }
   .shot-b { grid-column: 1 / -1; }
   .shot-c, .shot-d { grid-column: span 1; }
   .reviews-grid, .start-grid, .loc-grid { grid-template-columns: 1fr; }
-  .video-list { display: grid; grid-template-columns: 1fr; }
-  .video-first, .video-rest { grid-column: 1 / -1; grid-row: auto; }
+  .video-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .map { min-height: 320px; height: 320px; }
   .day .full { display: none; }
   .day .short { display: inline; }
@@ -333,7 +330,7 @@ a.panel:hover .panel-big { color: var(--leather); }
   .times div { grid-template-columns: 1fr; }
   .btn { width: 100%; }
   .hero-actions { width: 100%; }
-  .video-rest { grid-template-columns: 1fr; }
+  .video-list { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -365,7 +362,7 @@ a.panel:hover .panel-big { color: var(--leather); }
       <div class="wrap hero-wall">
         <div class="hero-copy">
           <h1 id="titulo"><span class="h1-light">Força no tatame,</span> <span class="h1-bold">confiança na vida</span></h1>
-          <p class="lede">Desenvolva disciplina, confiança e supere seus limites com <span style="white-space:nowrap">jiu-jitsu</span>, boxe, muay thai e MMA. Aulas para crianças e adultos, do iniciante ao avançado, no Horto Florestal, em Salvador.</p>
+          <p class="lede">Desenvolva disciplina, confiança e supere seus limites com <span style="white-space:nowrap">jiu-jitsu</span> com e sem kimono, boxe, muay thai e MMA. Aulas para crianças e adultos, do iniciante ao avançado, no Horto Florestal, em Salvador.</p>
           <div class="hero-actions">
             <a class="btn" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT."><svg aria-hidden="true"><use href="#wa"/></svg>Agendar aula experimental</a>
             <a class="text-link" href="#horarios">Ver horários de hoje</a>
@@ -400,7 +397,7 @@ a.panel:hover .panel-big { color: var(--leather); }
         <noscript><p class="sched-note">Fale com a Lions CT pelo WhatsApp (71) 98143-7474 para receber a grade de horários.</p></noscript>
       </div>
       <div class="board-foot">
-        <p>Grade publicada pela Lions CT no Instagram em abril de 2026. Confirme a vaga e o horário pelo WhatsApp antes da sua primeira aula.</p>
+        <p>Confirme a vaga e o horário pelo WhatsApp antes da sua primeira aula.</p>
         <a class="btn btn-light" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT."><svg aria-hidden="true"><use href="#wa"/></svg>Agendar aula experimental</a>
       </div>
     </div>
@@ -446,8 +443,8 @@ a.panel:hover .panel-big { color: var(--leather); }
         <article class="track">
           <figure class="track-photo crop-women"><img src="assets/women-class.webp" width="1330" height="1182" loading="lazy" alt="Alunas da turma feminina da Lions CT, de kimono branco e azul, sorrindo e aplaudindo no tatame"></figure>
           <div class="track-body">
-            <h3>Mulheres: jiu-jitsu feminino</h3>
-            <p>Uma turma só para mulheres, cinco dias por semana. Em outubro de 2026, a Lions também promoveu um aulão de defesa pessoal feminina, sem exigir experiência.</p>
+            <h3>Mulheres: força, confiança e defesa pessoal</h3>
+            <p>Muito mais que uma arte marcial, o jiu-jítsu é uma ferramenta de proteção e liberdade. Em um ambiente seguro, acolhedor e exclusivo para mulheres, nossas alunas desenvolvem técnicas reais de defesa pessoal, autoconfiança e preparo físico. Aqui, cada mulher descobre sua força e aprende a se proteger, independentemente da idade ou experiência.</p>
             <dl class="times">
               <div><dt>Jiu-jitsu feminino</dt><dd>Seg a sex às 18h</dd></div>
             </dl>
@@ -459,7 +456,7 @@ a.panel:hover .panel-big { color: var(--leather); }
           <figure class="track-photo"><img src="assets/bags-2.jpg" width="1280" height="960" loading="lazy" alt="Área de boxe e muay thai da Lions CT com sacos de pancada de couro"></figure>
           <div class="track-body">
             <h3>Boxe, muay thai e MMA</h3>
-            <p>Treinos em área própria, com sacos de pancada e tatame, para ganhar técnica e condicionamento físico.</p>
+            <p>Muito além da luta, nossas modalidades desenvolvem força, resistência, agilidade e autoconfiança. Com professores qualificados, treinos dinâmicos e estrutura exclusiva, cada aluno evolui no seu ritmo, seja para melhorar o condicionamento físico, aprender defesa pessoal ou superar novos desafios.</p>
             <dl class="times">
               <div><dt>Boxe</dt><dd>Seg, qua e sex às 17h. Sáb às 8h</dd></div>
               <div><dt>Muay thai</dt><dd>Seg e qua às 19h. Ter e qui às 18h. Sáb às 9h</dd></div>
@@ -475,14 +472,14 @@ a.panel:hover .panel-big { color: var(--leather); }
   <section id="estrutura" class="section structure concrete" aria-labelledby="h-estrutura">
     <div class="wrap structure-grid">
       <div class="structure-copy">
-        <h2 id="h-estrutura">Um espaço feito para treinar</h2>
-        <p>Cada detalhe foi pensado para a sua segurança e o seu conforto, e pais e filhos podem treinar no mesmo horário.</p>
+        <h2 id="h-estrutura">Uma estrutura à altura da sua evolução</h2>
+        <p>Na LIONS, cada detalhe foi pensado para oferecer uma experiência de treinamento diferenciada. Ambientes modernos, climatizados e cuidadosamente planejados para proporcionar conforto, segurança e excelência em cada treino. Um espaço onde você pode se concentrar no que realmente importa: sua evolução.</p>
         <ul class="features">
           <li>Tatames de padrão internacional</li>
-          <li>Áreas exclusivas para cada modalidade</li>
-          <li>Espaço climatizado</li>
-          <li>Vestiários, chuveiros e armários</li>
-          <li>Bebedouro e Wi-Fi</li>
+          <li>Três áreas de treinamento independentes</li>
+          <li>Ambientes climatizados</li>
+          <li>Vestiários completos com chuveiros e armários</li>
+          <li>Bebedouro e Wi-Fi disponível</li>
         </ul>
       </div>
       <figure class="shot-a"><img src="assets/mat-wall.jpg" width="1280" height="960" loading="lazy" alt="Tatame branco com parede de concreto, saco de pancada e logo da Lions CT"></figure>
@@ -562,34 +559,32 @@ a.panel:hover .panel-big { color: var(--leather); }
     <div class="wrap">
       <div class="videos-head">
         <div>
-          <h2 id="h-videos">Treine também pelo YouTube</h2>
-          <p class="lede">No canal da Lions CT são 73 vídeos sobre jiu-jitsu, condicionamento físico e defesa pessoal, com 8 mil inscritos. Comece por estes.</p>
+          <h2 id="h-videos">Sua evolução continua fora do tatame</h2>
+          <p class="lede">O aprendizado não termina quando o treino acaba. No canal da LIONS CT no YouTube, você encontra conteúdos sobre jiu-jítsu, técnicas de defesa pessoal, condicionamento físico e dicas para aprimorar seu desempenho. Conhecimento e inspiração para você continuar evoluindo, onde estiver.</p>
         </div>
         <a class="btn btn-line" href="https://www.youtube.com/@Lionsct" target="_blank" rel="noopener">Abrir o canal Lions CT</a>
       </div>
       <div class="video-list">
-        <a class="video video-first" href="https://www.youtube.com/watch?v=hbtBBp_xqJw" target="_blank" rel="noopener">
-          <img src="https://i.ytimg.com/vi/hbtBBp_xqJw/hqdefault.jpg" width="480" height="360" loading="lazy" alt="">
-          <span>No-gi para iniciantes: primeiros passos e fundamentos do jiu-jitsu sem kimono</span>
+        <a class="video" href="https://www.youtube.com/watch?v=N7N31FBUpDE" target="_blank" rel="noopener">
+          <img src="https://i.ytimg.com/vi/N7N31FBUpDE/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt="">
+          <span>Jiu-jitsu para iniciantes: como funciona, dicas e primeiros passos</span>
+          <small>YouTube</small>
         </a>
-        <div class="video-rest">
-          <a class="video" href="https://www.youtube.com/watch?v=SsCOzHdQ7w8" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/SsCOzHdQ7w8/hqdefault.jpg" width="480" height="360" loading="lazy" alt="">
-            <span>Entenda de forma simples como funcionam as pontuações no jiu-jitsu</span>
-          </a>
-          <a class="video" href="https://www.youtube.com/watch?v=kVG8Txn60Mw" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/kVG8Txn60Mw/hqdefault.jpg" width="480" height="360" loading="lazy" alt="">
-            <span>Todo iniciante precisa aprender essas passagens de guarda fechada</span>
-          </a>
-          <a class="video" href="https://www.youtube.com/watch?v=htw4r73GfFg" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/htw4r73GfFg/hqdefault.jpg" width="480" height="360" loading="lazy" alt="">
-            <span>Como começar a luta do jeito certo no jiu-jitsu, iniciando de joelhos</span>
-          </a>
-          <a class="video" href="https://www.youtube.com/watch?v=DU-gENLDA0E" target="_blank" rel="noopener">
-            <img src="https://i.ytimg.com/vi/DU-gENLDA0E/hqdefault.jpg" width="480" height="360" loading="lazy" alt="">
-            <span>Como treinar jiu-jitsu sozinho com um boneco de treino</span>
-          </a>
-        </div>
+        <a class="video" href="https://www.youtube.com/watch?v=JFGaTSQqed0" target="_blank" rel="noopener">
+          <img src="https://i.ytimg.com/vi/JFGaTSQqed0/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt="">
+          <span>Aprenda 4 raspagens da guarda fechada que realmente funcionam</span>
+          <small>YouTube</small>
+        </a>
+        <a class="video vertical" href="https://www.youtube.com/shorts/1N7Txa8vuCE" target="_blank" rel="noopener">
+          <img src="https://i.ytimg.com/vi/1N7Txa8vuCE/oardefault.jpg" width="1080" height="1920" loading="lazy" alt="">
+          <span>5 posições proibidas no jiu-jitsu: evite punições e desclassificações</span>
+          <small>YouTube Shorts</small>
+        </a>
+        <a class="video vertical" href="https://www.instagram.com/reel/DDsiE-aPE1z/" target="_blank" rel="noopener">
+          <img src="assets/reel-wagner-moura.jpg" width="360" height="640" loading="lazy" alt="">
+          <span>“Tive a honra de ser um dos primeiros alunos a treinar aqui”, Wagner Moura</span>
+          <small>Instagram</small>
+        </a>
       </div>
     </div>
   </section>
