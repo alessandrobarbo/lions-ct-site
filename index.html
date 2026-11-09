@@ -56,6 +56,11 @@
   --ink-soft: #4d4f52;
   --leather: #9a5522;
   --leather-light: #e2a06a;
+  /* Dourado da logomarca Climbahia (degradê #e8d048 → #b88810, tom médio #cda932) */
+  --gold: #cda932;
+  --gold-hi: #e8d048;
+  --gold-lo: #b88810;
+  --gold-grad: linear-gradient(170deg, var(--gold-hi) 0%, var(--gold) 45%, var(--gold-lo) 100%);
   --display: "Raleway", "Segoe UI", system-ui, sans-serif;
   --body: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 56px);
@@ -220,19 +225,38 @@ a.panel:hover .panel-big { color: var(--leather); }
 .shot-b img, .shot-c img, .shot-d img { aspect-ratio: 4 / 3; }
 
 /* Reviews */
-.reviews-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 76px); align-items: start; }
-.score { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-.score-num { font: 700 clamp(4.5rem, 3rem + 7vw, 8.5rem)/.9 var(--display); color: var(--acrylic); }
-.score-text { font-size: 1.125rem; font-weight: 600; }
-.stars { color: var(--leather); letter-spacing: .1em; font-size: 1.3rem; display: block; }
-.team { margin-top: 28px; }
-.team figcaption { font-size: 1rem; color: var(--ink-soft); margin-top: 8px; }
-.quotes { display: grid; }
-.quote { padding-block: clamp(20px, 2.5vw, 30px); border-top: 1px solid var(--seam); }
-.quote:last-child { border-bottom: 1px solid var(--seam); }
-.quote p { font-size: clamp(1.125rem, 1.05rem + .4vw, 1.375rem); line-height: 1.45; color: var(--ink); max-width: 60ch; }
-.quote footer { margin-top: 10px; color: var(--ink-soft); font-size: 1rem; }
-.reviews-link { margin-top: 22px; display: inline-block; }
+.reviews-head { text-align: center; }
+.reviews-head h2 { margin-inline: auto; }
+.reviews-score { margin-top: 12px; color: var(--ink-soft); font-size: 1.0625rem; font-weight: 600; }
+.reviews-score .stars { color: var(--gold-lo); letter-spacing: .08em; margin-right: 6px; }
+.rv-track {
+  --per: 3; --gap: clamp(16px, 2.2vw, 28px);
+  display: flex; gap: var(--gap); margin-top: clamp(28px, 4vw, 44px);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: none; padding-bottom: 4px; align-items: flex-start;
+}
+.rv-track::-webkit-scrollbar { display: none; }
+.rv { flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align: start; text-align: center; }
+.rv-box { color: var(--ink); border-radius: 6px; padding: 26px clamp(18px, 2vw, 28px) 62px; }
+.rv-mark { width: 38px; height: 30px; margin: 0 auto 16px; filter: drop-shadow(0 1px 0 rgba(0,0,0,.18)); }
+.rv-box p { font-size: 1.0625rem; line-height: 1.55; font-weight: 500; }
+.rv-avatar {
+  width: 96px; height: 96px; margin: -48px auto 0; border-radius: 50%; position: relative;
+  border: 7px solid var(--concrete); background: var(--gold-grad); color: var(--ink);
+  display: grid; place-items: center; font: 800 2rem/1 var(--display);
+}
+.rv-name, .rv-stars { display: block; }
+.rv-name { margin-top: 14px; font-weight: 700; font-size: 1.0625rem; color: var(--ink); }
+.rv-stars { letter-spacing: .14em; font-size: 1.15rem; margin-top: 2px; }
+.rv-stars, .reviews-score .stars { background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.rv-dots { display: flex; justify-content: center; gap: 4px; margin-top: 22px; }
+.rv-dots button { width: 24px; height: 24px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.rv-dots button::before { content: ""; width: 9px; height: 9px; border-radius: 99px; background: var(--seam); transition: width .25s, background-color .25s; }
+.rv-dots button[aria-current="true"] { width: 36px; }
+.rv-dots button[aria-current="true"]::before { width: 26px; background: var(--acrylic); }
+.reviews-link-row { text-align: center; margin-top: 18px; }
+@media (max-width: 960px) { .rv-track { --per: 2; } }
+@media (max-width: 620px) { .rv-track { --per: 1.12; } }
 
 /* First class + FAQ */
 .start { background: var(--acrylic); color: #e9e9e6; }
@@ -253,9 +277,9 @@ a.panel:hover .panel-big { color: var(--leather); }
 .video { text-decoration: none; display: block; }
 .video img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--panel-shade); }
 .video.vertical img { object-fit: contain; background: var(--board); }
-.video span { display: block; margin-top: 12px; font-weight: 600; line-height: 1.35; }
+.video > span:not(.video-thumb) { display: block; margin-top: 12px; font-weight: 600; line-height: 1.35; }
 .video small { display: block; margin-top: 4px; font-size: .9375rem; color: var(--ink-soft); }
-.video:hover span { color: var(--leather); text-decoration: underline; text-underline-offset: 3px; }
+.video:hover > span:not(.video-thumb) { color: var(--leather); text-decoration: underline; text-underline-offset: 3px; }
 
 /* Location */
 .location { border-top: 1px solid rgba(0,0,0,.22); }
@@ -279,17 +303,118 @@ a.panel:hover .panel-big { color: var(--leather); }
 /* Mobile WhatsApp bar */
 .mobile-cta { display: none; }
 
-/* The one orchestrated moment: letters seat onto the wall */
-@media (prefers-reduced-motion: no-preference) {
-  h1 { animation: seat .9s cubic-bezier(.2,.7,.2,1) both; }
-  @keyframes seat {
-    from { transform: scale(1.02); text-shadow: 12px 20px 26px rgba(0,0,0,.25); }
-    to { transform: none; }
-  }
+/* =====================================================================
+   Movimento. Orçamento: VIVO (academia de artes marciais).
+   Entradas 500–800 ms, distância 18–28 px, easing cubic-bezier(.2,.7,.2,1).
+   Momento principal: o título do hero sobe linha a linha.
+   Tudo que fica escondido para animar depende de <html class="js">.
+   ===================================================================== */
+:root { --ease: cubic-bezier(.2,.7,.2,1); --dist: 28px; }
+@media (max-width: 640px) { :root { --dist: 18px; } }
+body { overflow-x: clip; }
+
+/* Hero: título linha a linha, texto e botões em seguida, foto com Ken Burns */
+h1 .ln { overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+h1 .ln > span { display: block; animation: rise .95s var(--ease) both; }
+h1 .ln + .ln > span { animation-delay: .14s; }
+.hero-copy .lede { animation: fadeup .8s var(--ease) .38s both; }
+.hero-actions { animation: fadeup .8s var(--ease) .52s both; }
+.hero-photo { overflow: hidden; animation: unveil 1.1s var(--ease) .1s both; }
+.hero-photo img { animation: kenburns 22s ease-in-out 1.2s infinite alternate; transform-origin: 55% 60%; }
+.panel { animation: fadeup .7s var(--ease) backwards; }
+.panel:nth-child(1) { animation-delay: .6s; } .panel:nth-child(2) { animation-delay: .68s; }
+.panel:nth-child(3) { animation-delay: .76s; } .panel:nth-child(4) { animation-delay: .84s; }
+@keyframes rise { from { transform: translateY(108%); } to { transform: none; } }
+@keyframes fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes unveil { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.06) translateY(-1.2%); } }
+
+/* Painéis: barra cor de couro que cresce e leve elevação */
+.panel { position: relative; transition: transform .35s var(--ease), background-color .35s; }
+.panel::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--leather); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); }
+.panel:hover::before, .panel:focus-visible::before { transform: scaleX(1); }
+.panel:hover { transform: translateY(-3px); }
+
+/* Cabeçalho fica compacto e ganha sombra ao rolar */
+.site-head { transition: box-shadow .3s; }
+.head-row { transition: min-height .3s var(--ease); }
+.brand img { transition: width .3s var(--ease); }
+.site-head.is-scrolled { box-shadow: 0 10px 24px -16px rgba(0,0,0,.55); }
+@media (min-width: 861px) {
+  .site-head.is-scrolled .head-row { min-height: 60px; }
+  .site-head.is-scrolled .brand img { width: 164px; }
 }
+.nav a { position: relative; border-bottom: 0; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 2px; background: var(--acrylic); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease); }
+.nav a:hover::after, .nav a:focus-visible::after, .nav a.is-current::after { transform: scaleX(1); }
+
+/* Botões: brilho que atravessa e leve elevação */
+.btn { position: relative; overflow: hidden; transition: background-color .2s, color .2s, border-color .2s, transform .25s var(--ease), box-shadow .25s var(--ease); }
+.btn::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%); transform: translateX(-120%); transition: transform .7s var(--ease); pointer-events: none; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px -12px rgba(0,0,0,.6); }
+.btn:hover::after { transform: translateX(120%); }
+.mobile-cta:hover { transform: none; box-shadow: none; }
+
+/* Faixa contínua das modalidades */
+.band { background: var(--acrylic); color: #e9e9e6; overflow: hidden; padding-block: 15px; }
+.band-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.band:hover .band-track, .band.is-off .band-track { animation-play-state: paused; }
+.band ul { display: flex; flex: none; }
+.band li { display: flex; align-items: center; gap: 26px; padding-right: 26px; font: 700 clamp(1rem, .9rem + .5vw, 1.3rem)/1 var(--display); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.band li::after { content: ""; width: 9px; height: 9px; background: var(--gold-grad); transform: rotate(45deg); flex: none; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Revelação ao rolar */
+.js .reveal { opacity: 0; transform: translateY(var(--dist)); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+.js .reveal.from-left { transform: translateX(calc(var(--dist) * -1.2)); }
+.js .reveal.from-right { transform: translateX(calc(var(--dist) * 1.2)); }
+.js .reveal.from-scale { transform: scale(.95); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* Fotos: zoom suave no hover */
+.track-photo, .structure-grid figure { overflow: hidden; }
+.track-photo img, .structure-grid figure img, .video img { transition: transform .9s var(--ease); }
+.track:hover .track-photo img, .structure-grid figure:hover img { transform: scale(1.05); }
+.track:hover .track-photo.crop-women img { transform: scale(1.04); transform-origin: 45% 45%; }
+.video { position: relative; }
+.video-thumb { display: block; overflow: hidden; position: relative; }
+.video:hover img, .video:focus-visible img { transform: scale(1.06); }
+.video-thumb::after { content: ""; position: absolute; left: 50%; top: 50%; width: 58px; height: 58px; margin: -29px 0 0 -29px; border-radius: 50%; background: rgba(0,0,0,.72) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M8 5v14l11-7z'/%3E%3C/svg%3E") 55% 50% / 26px no-repeat; transform: scale(.7); opacity: 0; transition: transform .35s var(--ease), opacity .35s; }
+.video:hover .video-thumb::after, .video:focus-visible .video-thumb::after { transform: scale(1); opacity: 1; background-color: rgba(154,85,34,.92); }
+
+/* Grade: os horários entram em cascata ao trocar de dia */
+.slot { animation: fadeup .45s var(--ease) both; animation-delay: calc(var(--i, 0) * 45ms); }
+.day, .chip { transition: background-color .25s, color .25s, border-color .25s; }
+
+/* Depoimentos: elevação leve */
+.rv-track { padding-top: 8px; }
+.rv-box { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.rv:hover .rv-box { transform: translateY(-4px); box-shadow: 0 18px 30px -22px rgba(0,0,0,.6); }
+.rv-avatar { transition: transform .35s var(--ease); }
+.rv:hover .rv-avatar { transform: translateY(-4px) rotate(-6deg); }
+
+/* FAQ: resposta surge suavemente */
+.faq details[open] > p { animation: fadeup .4s var(--ease); }
+.faq summary { transition: color .2s; }
+.faq summary:hover { color: var(--leather-light); }
+
+/* WhatsApp flutuante (desktop), aparece depois do hero */
+.wa-float { position: fixed; right: calc(24px + env(safe-area-inset-right, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 55; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--acrylic); color: #fff; box-shadow: 0 14px 30px -12px rgba(0,0,0,.7); opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none; transition: opacity .35s var(--ease), transform .35s var(--ease), background-color .25s; }
+.wa-float.show { opacity: 1; transform: none; pointer-events: auto; }
+.wa-float:hover { background: var(--leather); transform: scale(1.07); }
+.wa-float svg { width: 28px; height: 28px; fill: currentColor; }
+.wa-float::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--leather); animation: pulse 2.6s ease-out infinite; }
+@keyframes pulse { from { transform: scale(1); opacity: .8; } to { transform: scale(1.6); opacity: 0; } }
+@media (max-width: 860px) { .wa-float { display: none; } }
+
+/* Movimento reduzido: tudo estático e visível */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  * { transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .reveal { opacity: 1; transform: none; }
+  .band-track { width: auto; }
+  .band ul[aria-hidden] { display: none; }
+  .band ul:first-child { flex-wrap: wrap; justify-content: center; row-gap: 12px; }
 }
 
 @media (max-width: 1080px) {
@@ -314,7 +439,7 @@ a.panel:hover .panel-big { color: var(--leather); }
   .shot-a { grid-column: 1 / -1; grid-row: auto; }
   .shot-b { grid-column: 1 / -1; }
   .shot-c, .shot-d { grid-column: span 1; }
-  .reviews-grid, .start-grid, .loc-grid { grid-template-columns: 1fr; }
+  .start-grid, .loc-grid { grid-template-columns: 1fr; }
   .video-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .map { min-height: 320px; height: 320px; }
   .day .full { display: none; }
@@ -336,6 +461,7 @@ a.panel:hover .panel-big { color: var(--leather); }
   .video-list { grid-template-columns: 1fr; }
 }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 <a class="skip" href="#conteudo">Ir para o conteúdo</a>
@@ -364,7 +490,7 @@ a.panel:hover .panel-big { color: var(--leather); }
     <div class="concrete">
       <div class="wrap hero-wall">
         <div class="hero-copy">
-          <h1 id="titulo"><span class="h1-light">Força no tatame,</span> <span class="h1-bold">confiança na vida</span></h1>
+          <h1 id="titulo"><span class="h1-light ln"><span>Força no tatame,</span></span> <span class="h1-bold ln"><span>confiança na vida</span></span></h1>
           <p class="lede">Desenvolva disciplina, confiança e supere seus limites com <span style="white-space:nowrap">jiu-jitsu</span> com e sem kimono, boxe, muay thai e MMA. Aulas para crianças e adultos, do iniciante ao avançado, no Horto Florestal, em Salvador.</p>
           <div class="hero-actions">
             <a class="btn" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT."><svg aria-hidden="true"><use href="#wa"/></svg>Agendar aula experimental</a>
@@ -378,7 +504,7 @@ a.panel:hover .panel-big { color: var(--leather); }
     </div>
     <div class="panels">
       <div class="panel-row">
-        <a class="panel" href="#avaliacoes"><span class="panel-big">5,0 no Google</span><span class="panel-small">Média de 108 avaliações</span></a>
+        <a class="panel" href="#avaliacoes"><span class="panel-big"><span data-count="5" data-decimals="1">5,0</span> no Google</span><span class="panel-small">Média de <span data-count="108">108</span> avaliações</span></a>
         <a class="panel" href="#turmas"><span class="panel-big">Desde os 2½ anos</span><span class="panel-small">Do jiu-jitsu baby às turmas de adultos</span></a>
         <a class="panel" href="#horarios"><span class="panel-big">6h às 21h</span><span class="panel-small">De segunda a sexta. Sábado, das 7h às 12h</span></a>
         <a class="panel" href="#localizacao"><span class="panel-big">Horto Florestal</span><span class="panel-small">R. do Jacarandá, 879, loja 03, Salvador</span></a>
@@ -386,13 +512,17 @@ a.panel:hover .panel-big { color: var(--leather); }
     </div>
   </section>
 
+  <div class="band" aria-label="Modalidades da Lions CT">
+    <div class="band-track"><ul><li>Jiu-jitsu</li><li>Sem kimono</li><li>Jiu-jitsu infantil</li><li>Jiu-jitsu feminino</li><li>Competição</li><li>Boxe</li><li>Muay thai</li><li>MMA</li></ul></div>
+  </div>
+
   <section id="horarios" class="section board-section on-board" aria-labelledby="h-horarios">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="h-horarios">Escolha o dia e o seu treino</h2>
         <p class="lede">Toque em agendar e a mensagem do WhatsApp já sai com a aula e o horário que você escolheu.</p>
       </div>
-      <div class="board-tools">
+      <div class="board-tools reveal" style="--d:.1s">
         <div class="days" role="tablist" aria-label="Dia da semana" id="days"></div>
         <div class="filters" role="group" aria-label="Filtrar por turma" id="filters"></div>
       </div>
@@ -408,18 +538,18 @@ a.panel:hover .panel-big { color: var(--leather); }
 
   <section id="turmas" class="section" aria-labelledby="h-turmas">
     <div class="wrap">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2 id="h-turmas"><span style="white-space:nowrap">Seu ritmo.</span> <span style="white-space:nowrap">Sua evolução.</span> <span style="white-space:nowrap">Nosso cuidado.</span></h2>
         <p class="lede">Na LIONS, você encontra um ambiente acolhedor para aprender e evoluir no seu ritmo. Nossos professores altamente qualificados orientam cada treino com responsabilidade e atenção à segurança, respeitando a idade, os limites e os objetivos de cada aluno.</p>
       </div>
       <div class="tracks">
         <article class="track">
-          <figure class="track-photo"><img src="assets/mat-logo.jpg" width="1280" height="960" loading="lazy" alt="Sala de treino da Lions CT com tatame branco e o leão na parede"></figure>
-          <div class="track-body">
+          <figure class="reveal track-photo"><img src="assets/mat-logo.jpg" width="1280" height="960" loading="lazy" alt="Sala de treino da Lions CT com tatame branco e o leão na parede"></figure>
+          <div class="track-body reveal" style="--d:.12s">
             <h3>Adultos: jiu-jitsu</h3>
             <p>Você evolui no seu ritmo, com acompanhamento e treinos ajustados às suas necessidades. Tem turma para todos os níveis, sem kimono e de competição.</p>
             <dl class="times">
-              <div><dt>Todos os níveis</dt><dd>Seg a sex às 6h, 7h, 18h e 19h. Ter e qui também às 20h. Sáb às 7h e 10h</dd></div>
+              <div><dt>Todos os níveis</dt><dd>Seg a sex às 6h, 7h, 18h e 19h. Sáb às 7h e 10h</dd></div>
               <div><dt>Sem kimono</dt><dd>Ter e qui às 19h</dd></div>
               <div><dt>Competição</dt><dd>Ter e qui às 12h</dd></div>
               <div><dt>Experimental</dt><dd>Seg e qui às 18h</dd></div>
@@ -429,8 +559,8 @@ a.panel:hover .panel-big { color: var(--leather); }
         </article>
 
         <article class="track">
-          <figure class="track-photo pos-kids"><img src="assets/kids-circle.webp" width="1093" height="1439" loading="lazy" alt="Professor da Lions CT conversa com três crianças de kimono, sentadas em roda no tatame"></figure>
-          <div class="track-body">
+          <figure class="reveal track-photo pos-kids"><img src="assets/kids-circle.webp" width="1093" height="1439" loading="lazy" alt="Professor da Lions CT conversa com três crianças de kimono, sentadas em roda no tatame"></figure>
+          <div class="track-body reveal" style="--d:.12s">
             <h3>Crianças: jiu-jitsu infantil</h3>
             <p>Na LIONS, cada brincadeira e cada desafio no tatame são oportunidades para crescer. Com aulas lúdicas e adequadas a cada idade, as crianças desenvolvem coordenação motora, concentração, autoconfiança e respeito ao próximo, aprendendo a lidar com desafios e emoções no seu próprio ritmo.</p>
             <dl class="times">
@@ -444,8 +574,8 @@ a.panel:hover .panel-big { color: var(--leather); }
         </article>
 
         <article class="track">
-          <figure class="track-photo crop-women"><img src="assets/women-class.webp" width="1330" height="1182" loading="lazy" alt="Alunas da turma feminina da Lions CT, de kimono branco e azul, sorrindo e aplaudindo no tatame"></figure>
-          <div class="track-body">
+          <figure class="reveal track-photo crop-women"><img src="assets/women-class.webp" width="1330" height="1182" loading="lazy" alt="Alunas da turma feminina da Lions CT, de kimono branco e azul, sorrindo e aplaudindo no tatame"></figure>
+          <div class="track-body reveal" style="--d:.12s">
             <h3>Mulheres: força, confiança e defesa pessoal</h3>
             <p>Muito mais que uma arte marcial, o jiu-jítsu é uma ferramenta de proteção e liberdade. Em um ambiente seguro, acolhedor e exclusivo para mulheres, nossas alunas desenvolvem técnicas reais de defesa pessoal, autoconfiança e preparo físico. Aqui, cada mulher descobre sua força e aprende a se proteger, independentemente da idade ou experiência.</p>
             <dl class="times">
@@ -456,8 +586,8 @@ a.panel:hover .panel-big { color: var(--leather); }
         </article>
 
         <article class="track">
-          <figure class="track-photo"><img src="assets/bags-2.jpg" width="1280" height="960" loading="lazy" alt="Área de boxe e muay thai da Lions CT com sacos de pancada de couro"></figure>
-          <div class="track-body">
+          <figure class="reveal track-photo"><img src="assets/bags-2.jpg" width="1280" height="960" loading="lazy" alt="Área de boxe e muay thai da Lions CT com sacos de pancada de couro"></figure>
+          <div class="track-body reveal" style="--d:.12s">
             <h3>Boxe, muay thai e MMA</h3>
             <p>Muito além da luta, nossas modalidades desenvolvem força, resistência, agilidade e autoconfiança. Com professores qualificados, treinos dinâmicos e estrutura exclusiva, cada aluno evolui no seu ritmo, seja para melhorar o condicionamento físico, aprender defesa pessoal ou superar novos desafios.</p>
             <dl class="times">
@@ -474,7 +604,7 @@ a.panel:hover .panel-big { color: var(--leather); }
 
   <section id="estrutura" class="section structure concrete" aria-labelledby="h-estrutura">
     <div class="wrap structure-grid">
-      <div class="structure-copy">
+      <div class="structure-copy reveal">
         <h2 id="h-estrutura">Uma estrutura à altura da sua evolução</h2>
         <p>Na LIONS, cada detalhe foi pensado para oferecer uma experiência de treinamento diferenciada. Ambientes modernos, climatizados e cuidadosamente planejados para proporcionar conforto, segurança e excelência em cada treino. Um espaço onde você pode se concentrar no que realmente importa: sua evolução.</p>
         <ul class="features">
@@ -485,42 +615,50 @@ a.panel:hover .panel-big { color: var(--leather); }
           <li>Bebedouro e Wi-Fi disponível</li>
         </ul>
       </div>
-      <figure class="shot-a"><img src="assets/mat-wall.jpg" width="1280" height="960" loading="lazy" alt="Tatame branco com parede de concreto, saco de pancada e logo da Lions CT"></figure>
-      <figure class="shot-b"><img src="assets/reception.jpg" width="1280" height="960" loading="lazy" alt="Recepção da Lions CT"></figure>
-      <figure class="shot-c"><img src="assets/corridor.jpg" width="1280" height="960" loading="lazy" alt="Corredor com armários e acesso ao tatame"></figure>
-      <figure class="shot-d"><img src="assets/mat-long.jpg" width="1280" height="960" loading="lazy" alt="Sala de tatame ampla com painéis brancos"></figure>
+      <figure class="shot-a reveal from-scale" style="--d:.1s"><img src="assets/mat-wall.jpg" width="1280" height="960" loading="lazy" alt="Tatame branco com parede de concreto, saco de pancada e logo da Lions CT"></figure>
+      <figure class="shot-b reveal"><img src="assets/reception.jpg" width="1280" height="960" loading="lazy" alt="Recepção da Lions CT"></figure>
+      <figure class="shot-c reveal" style="--d:.1s"><img src="assets/corridor.jpg" width="1280" height="960" loading="lazy" alt="Corredor com armários e acesso ao tatame"></figure>
+      <figure class="shot-d reveal" style="--d:.2s"><img src="assets/mat-long.jpg" width="1280" height="960" loading="lazy" alt="Sala de tatame ampla com painéis brancos"></figure>
     </div>
   </section>
 
   <section id="avaliacoes" class="section" aria-labelledby="h-avaliacoes">
-    <div class="wrap reviews-grid">
-      <div>
+    <div class="wrap">
+      <div class="reviews-head reveal">
         <h2 id="h-avaliacoes">Quem treina aqui recomenda</h2>
-        <div class="score" style="margin-top:22px">
-          <span class="score-num">5,0</span>
-          <span class="score-text"><span class="stars" aria-hidden="true">★★★★★</span>108 avaliações no Google</span>
-        </div>
-        <figure class="team">
-          <img src="assets/team.jpg" width="1280" height="720" loading="lazy" alt="Alunos e professores da Lions CT de kimono, reunidos no tatame">
-          <figcaption>Turma reunida no tatame da Lions CT.</figcaption>
+        <p class="reviews-score"><span class="stars" aria-hidden="true">★★★★★</span>5,0 no Google, com 108 avaliações</p>
+      </div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="rv-gold" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#e8d048"/><stop offset=".45" stop-color="#cda932"/><stop offset="1" stop-color="#b88810"/></linearGradient></defs></svg>
+      <div class="rv-track reveal" style="--d:.12s" id="rv-track" tabindex="0" aria-label="Avaliações de alunos no Google">
+        <figure class="rv">
+          <blockquote class="rv-box concrete"><svg class="rv-mark" viewBox="0 0 38 30" aria-hidden="true"><path fill="url(#rv-gold)" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 4.2C10.6 5.9 8.4 9 8.2 13.5H16V30H0Zm22 0V17C22 7.6 26.6 1.9 35.8 0l1.7 4.2c-4.9 1.7-7.1 4.8-7.3 9.3H38V30H22Z"/></svg>
+            <p>Excelente localização, estacionamento fácil, atendimento muito educado de todos, professores e mestres muito profissionais e capacitados, fazem você se sentir bem. Já visitei muitas academias de Jiu Jitsu no Brasil, o Lions CT com certeza é uma academia de excelência em todos os aspectos.</p></blockquote>
+          <figcaption><span class="rv-avatar" aria-hidden="true">S</span><span class="rv-name">Sitio Bar</span><span class="rv-stars" role="img" aria-label="5 estrelas">★★★★★</span></figcaption>
+        </figure>
+        <figure class="rv">
+          <blockquote class="rv-box concrete"><svg class="rv-mark" viewBox="0 0 38 30" aria-hidden="true"><path fill="url(#rv-gold)" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 4.2C10.6 5.9 8.4 9 8.2 13.5H16V30H0Zm22 0V17C22 7.6 26.6 1.9 35.8 0l1.7 4.2c-4.9 1.7-7.1 4.8-7.3 9.3H38V30H22Z"/></svg>
+            <p>O Jiu Jitsu mudou meu estilo de vida completamente! Perdi 6 kg em 6 meses sem tomar remédio injetável nem nada do tipo! A Lions sem dúvida proporcionou um ambiente propício para que eu pudesse aprender a arte suave com muito acolhimento.</p></blockquote>
+          <figcaption><span class="rv-avatar" aria-hidden="true">F</span><span class="rv-name">Felipe Purcell</span><span class="rv-stars" role="img" aria-label="5 estrelas">★★★★★</span></figcaption>
+        </figure>
+        <figure class="rv">
+          <blockquote class="rv-box concrete"><svg class="rv-mark" viewBox="0 0 38 30" aria-hidden="true"><path fill="url(#rv-gold)" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 4.2C10.6 5.9 8.4 9 8.2 13.5H16V30H0Zm22 0V17C22 7.6 26.6 1.9 35.8 0l1.7 4.2c-4.9 1.7-7.1 4.8-7.3 9.3H38V30H22Z"/></svg>
+            <p>Excelente academia de artes marciais. Minha filha de 6 anos faz aula de Jiu-Jitsu e está amando. Super recomendado!</p></blockquote>
+          <figcaption><span class="rv-avatar" aria-hidden="true">I</span><span class="rv-name">Ivan Santana</span><span class="rv-stars" role="img" aria-label="5 estrelas">★★★★★</span></figcaption>
+        </figure>
+        <figure class="rv">
+          <blockquote class="rv-box concrete"><svg class="rv-mark" viewBox="0 0 38 30" aria-hidden="true"><path fill="url(#rv-gold)" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 4.2C10.6 5.9 8.4 9 8.2 13.5H16V30H0Zm22 0V17C22 7.6 26.6 1.9 35.8 0l1.7 4.2c-4.9 1.7-7.1 4.8-7.3 9.3H38V30H22Z"/></svg>
+            <p>Academia muito boa, com profissionais de excelência. Estrutura de primeira. Indico a todos!</p></blockquote>
+          <figcaption><span class="rv-avatar" aria-hidden="true">P</span><span class="rv-name">Pepe Moreira</span><span class="rv-stars" role="img" aria-label="5 estrelas">★★★★★</span></figcaption>
+        </figure>
+        <figure class="rv">
+          <blockquote class="rv-box concrete"><svg class="rv-mark" viewBox="0 0 38 30" aria-hidden="true"><path fill="url(#rv-gold)" d="M0 30V17C0 7.6 4.6 1.9 13.8 0l1.7 4.2C10.6 5.9 8.4 9 8.2 13.5H16V30H0Zm22 0V17C22 7.6 26.6 1.9 35.8 0l1.7 4.2c-4.9 1.7-7.1 4.8-7.3 9.3H38V30H22Z"/></svg>
+            <p>Ótima academia de luta. Lugar excelente em profissionais e infraestrutura.</p></blockquote>
+          <figcaption><span class="rv-avatar" aria-hidden="true">T</span><span class="rv-name">Thiago Yabrudi</span><span class="rv-stars" role="img" aria-label="5 estrelas">★★★★★</span></figcaption>
         </figure>
       </div>
-      <div>
-        <div class="quotes">
-          <blockquote class="quote">
-            <p>“Excelente localização, estacionamento fácil, atendimento muito educado de todos, professores e mestres muito profissionais e capacitados, fazem você se sentir bem. Já visitei muitas academias de Jiu Jitsu no Brasil, o Lions CT com certeza é uma academia de excelência em todos os aspectos.”</p>
-            <footer>Sitio Bar, no Google</footer>
-          </blockquote>
-          <blockquote class="quote">
-            <p>“O Jiu Jitsu mudou meu estilo de vida completamente! Perdi 6 kg em 6 meses sem tomar remédio injetável nem nada do tipo!”</p>
-            <footer>Felipe Purcell, no Google</footer>
-          </blockquote>
-          <blockquote class="quote">
-            <p>“Academia muito boa, com profissionais de excelência. Estrutura de primeira. Indico a todos!”</p>
-            <footer>Pepe Moreira, no Google</footer>
-          </blockquote>
-        </div>
-        <a class="text-link reviews-link" href="https://www.google.com/maps/place/Lions+CT/@-13.0051601,-38.4856004,17z/data=!4m8!3m7!1s0x71605da35ec30f1:0xe201565f8ae4ba09!8m2!3d-13.0051601!4d-38.4856004!9m1!1b1!16s%2Fg%2F11yb4jf17w" target="_blank" rel="noopener">Ler todas as avaliações no Google</a>
+      <div class="rv-dots" id="rv-dots" role="group" aria-label="Navegar pelas avaliações"></div>
+      <div class="reviews-link-row">
+        <a class="text-link" href="https://www.google.com/maps/place/Lions+CT/@-13.0051601,-38.4856004,17z/data=!4m8!3m7!1s0x71605da35ec30f1:0xe201565f8ae4ba09!8m2!3d-13.0051601!4d-38.4856004!9m1!1b1!16s%2Fg%2F11yb4jf17w" target="_blank" rel="noopener">Ler todas as avaliações no Google</a>
       </div>
     </div>
   </section>
@@ -528,15 +666,15 @@ a.panel:hover .panel-big { color: var(--leather); }
   <section id="comecar" class="section start on-board" aria-labelledby="h-comecar">
     <div class="wrap start-grid">
       <div>
-        <h2 id="h-comecar">Sua primeira aula é simples de marcar</h2>
+        <h2 id="h-comecar" class="reveal">Sua primeira aula é simples de marcar</h2>
         <ol class="steps">
-          <li><span>Chame a Lions CT no WhatsApp.</span></li>
-          <li><span>Escolha o melhor dia e horário.</span></li>
-          <li><span>Receba as orientações e venha com roupa confortável.</span></li>
+          <li class="reveal" style="--d:.08s"><span>Chame a Lions CT no WhatsApp.</span></li>
+          <li class="reveal" style="--d:.18s"><span>Escolha o melhor dia e horário.</span></li>
+          <li class="reveal" style="--d:.28s"><span>Receba as orientações e venha com roupa confortável.</span></li>
         </ol>
         <a class="btn btn-light" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT."><svg aria-hidden="true"><use href="#wa"/></svg>Agendar pelo WhatsApp</a>
       </div>
-      <div class="faq">
+      <div class="faq reveal" style="--d:.15s">
         <h3 style="margin-bottom:18px">Dúvidas frequentes</h3>
         <details open>
           <summary>A Lions CT atende iniciantes?</summary>
@@ -560,7 +698,7 @@ a.panel:hover .panel-big { color: var(--leather); }
 
   <section id="videos" class="section" aria-labelledby="h-videos">
     <div class="wrap">
-      <div class="videos-head">
+      <div class="videos-head reveal">
         <div>
           <h2 id="h-videos">Sua evolução continua fora do tatame</h2>
           <p class="lede">O aprendizado não termina quando o treino acaba. No canal da LIONS CT no YouTube, você encontra conteúdos sobre jiu-jítsu, técnicas de defesa pessoal, condicionamento físico e dicas para aprimorar seu desempenho. Conhecimento e inspiração para você continuar evoluindo, onde estiver.</p>
@@ -568,23 +706,23 @@ a.panel:hover .panel-big { color: var(--leather); }
         <a class="btn btn-line" href="https://www.youtube.com/@Lionsct" target="_blank" rel="noopener">Abrir o canal Lions CT</a>
       </div>
       <div class="video-list">
-        <a class="video" href="https://www.youtube.com/watch?v=N7N31FBUpDE" target="_blank" rel="noopener">
-          <img src="https://i.ytimg.com/vi/N7N31FBUpDE/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt="">
+        <a class="video reveal" style="--d:0.00s" href="https://www.youtube.com/watch?v=N7N31FBUpDE" target="_blank" rel="noopener">
+          <span class="video-thumb"><img src="https://i.ytimg.com/vi/N7N31FBUpDE/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt=""></span>
           <span>Jiu-jitsu para iniciantes: como funciona, dicas e primeiros passos</span>
           <small>YouTube</small>
         </a>
-        <a class="video" href="https://www.youtube.com/watch?v=JFGaTSQqed0" target="_blank" rel="noopener">
-          <img src="https://i.ytimg.com/vi/JFGaTSQqed0/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt="">
+        <a class="video reveal" style="--d:0.08s" href="https://www.youtube.com/watch?v=JFGaTSQqed0" target="_blank" rel="noopener">
+          <span class="video-thumb"><img src="https://i.ytimg.com/vi/JFGaTSQqed0/maxresdefault.jpg" width="1280" height="720" loading="lazy" alt=""></span>
           <span>Aprenda 4 raspagens da guarda fechada que realmente funcionam</span>
           <small>YouTube</small>
         </a>
-        <a class="video vertical" href="https://www.youtube.com/shorts/1N7Txa8vuCE" target="_blank" rel="noopener">
-          <img src="https://i.ytimg.com/vi/1N7Txa8vuCE/oardefault.jpg" width="1080" height="1920" loading="lazy" alt="">
+        <a class="video vertical reveal" style="--d:0.16s" href="https://www.youtube.com/shorts/1N7Txa8vuCE" target="_blank" rel="noopener">
+          <span class="video-thumb"><img src="https://i.ytimg.com/vi/1N7Txa8vuCE/oardefault.jpg" width="1080" height="1920" loading="lazy" alt=""></span>
           <span>5 posições proibidas no jiu-jitsu: evite punições e desclassificações</span>
           <small>YouTube Shorts</small>
         </a>
-        <a class="video vertical" href="https://www.instagram.com/reel/DDsiE-aPE1z/" target="_blank" rel="noopener">
-          <img src="assets/reel-wagner-moura.jpg" width="360" height="640" loading="lazy" alt="">
+        <a class="video vertical reveal" style="--d:0.24s" href="https://www.instagram.com/reel/DDsiE-aPE1z/" target="_blank" rel="noopener">
+          <span class="video-thumb"><img src="assets/reel-wagner-moura.jpg" width="360" height="640" loading="lazy" alt=""></span>
           <span>“Tive a honra de ser um dos primeiros alunos a treinar aqui”, Wagner Moura</span>
           <small>Instagram</small>
         </a>
@@ -594,7 +732,7 @@ a.panel:hover .panel-big { color: var(--leather); }
 
   <section id="localizacao" class="section location concrete" aria-labelledby="h-local">
     <div class="wrap loc-grid">
-      <div class="loc-info">
+      <div class="loc-info reveal">
         <h2 id="h-local">Venha conhecer a Lions CT</h2>
         <address>Edifício Ticiano, R. do Jacarandá, 879, loja 03<br>Horto Florestal, Salvador, BA<br>CEP 41928-000</address>
         <div class="hours">
@@ -607,7 +745,7 @@ a.panel:hover .panel-big { color: var(--leather); }
           <a class="btn btn-line" href="https://www.google.com/maps/dir/?api=1&amp;destination=Lions+CT%2C+R.+do+Jacarand%C3%A1%2C+879%2C+Horto+Florestal%2C+Salvador+-+BA" target="_blank" rel="noopener">Traçar rota</a>
         </div>
       </div>
-      <iframe class="map" title="Mapa com a localização da Lions CT no Horto Florestal, Salvador" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Lions+CT,+R.+do+Jacarand%C3%A1,+879,+Horto+Florestal,+Salvador+-+BA&amp;z=16&amp;output=embed"></iframe>
+      <iframe class="map reveal from-right" style="--d:.12s" title="Mapa com a localização da Lions CT no Horto Florestal, Salvador" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Lions+CT,+R.+do+Jacarand%C3%A1,+879,+Horto+Florestal,+Salvador+-+BA&amp;z=16&amp;output=embed"></iframe>
     </div>
   </section>
 </main>
@@ -631,6 +769,7 @@ a.panel:hover .panel-big { color: var(--leather); }
   </div>
 </footer>
 
+<a class="wa-float" id="wa-float" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT." aria-label="Agendar aula experimental pelo WhatsApp"><svg aria-hidden="true"><use href="#wa"/></svg></a>
 <a class="btn mobile-cta" href="https://wa.me/5571981437474?text=Ol%C3%A1!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Lions%20CT."><svg aria-hidden="true"><use href="#wa"/></svg>Agendar aula experimental</a>
 
 <script>
@@ -655,13 +794,13 @@ a.panel:hover .panel-big { color: var(--leather); }
       ['17:00', [K2, K3, BOX]], ['18:00', [J, EXP, FEM]], ['19:00', [J, MT]] ] },
     { full: 'Terça', short: 'Ter', msg: 'terça', g: [
       ['06:00', [J]], ['07:00', [J]], ['12:00', [COMP]], ['15:10', [BABY]], ['16:10', [K1]],
-      ['17:00', [K2, K3]], ['18:00', [J, FEM, MT]], ['19:00', [J, NOGI]], ['20:00', [J, MMA]] ] },
+      ['17:00', [K2, K3]], ['18:00', [J, FEM, MT]], ['19:00', [J, NOGI]], ['20:00', [MMA]] ] },
     { full: 'Quarta', short: 'Qua', msg: 'quarta', g: [
       ['06:00', [J]], ['07:00', [J]], ['08:40', [K1]], ['16:10', [K1]],
       ['17:00', [K2, K3, BOX]], ['18:00', [J, FEM]], ['19:00', [J, MT]] ] },
     { full: 'Quinta', short: 'Qui', msg: 'quinta', g: [
       ['06:00', [J]], ['07:00', [J]], ['12:00', [COMP]], ['15:10', [BABY]], ['16:10', [K1]],
-      ['17:00', [K2, K3]], ['18:00', [J, FEM, MT, EXP]], ['19:00', [J, NOGI]], ['20:00', [J, MMA]] ] },
+      ['17:00', [K2, K3]], ['18:00', [J, FEM, MT, EXP]], ['19:00', [J, NOGI]], ['20:00', [MMA]] ] },
     { full: 'Sexta', short: 'Sex', msg: 'sexta', g: [
       ['06:00', [J]], ['07:00', [J]], ['16:10', [K1]],
       ['17:00', [K3, BOX]], ['18:00', [J, FEM]], ['19:00', [J]] ] },
@@ -736,8 +875,8 @@ a.panel:hover .panel-big { color: var(--leather); }
         '<button type="button" data-day="' + alt[0] + '">Ver ' + DAYS[alt[0]].full.toLowerCase() + '</button></div>';
       return;
     }
-    schedEl.innerHTML = title + note + '<div class="slots">' + slots.map(function (s) {
-      return '<div class="slot"><div class="slot-time">' + fmt(s[0]) + '</div><div>' + s[1].map(function (c) {
+    schedEl.innerHTML = title + note + '<div class="slots">' + slots.map(function (s, k) {
+      return '<div class="slot" style="--i:' + k + '"><div class="slot-time">' + fmt(s[0]) + '</div><div>' + s[1].map(function (c) {
         var isNext = next === s[0];
         return '<div class="class-row"><span class="class-name">' + c.n +
           (c.a ? '<span class="class-age">' + c.a + '</span>' : '') +
@@ -771,6 +910,118 @@ a.panel:hover .panel-big { color: var(--leather); }
     state.day = +b.dataset.day; render();
   });
   render();
+})();
+
+// Carrossel de avaliações: pontos de navegação e troca automática suave.
+(function () {
+  var track = document.getElementById('rv-track');
+  var dotsEl = document.getElementById('rv-dots');
+  if (!track || !dotsEl) return;
+  var cards = track.querySelectorAll('.rv');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var paused = false, timer = null, pages = 0;
+
+  function step() { return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }
+  function current() { return Math.min(pages - 1, Math.round(track.scrollLeft / step())); }
+  function go(i) { track.scrollTo({ left: i * step(), behavior: reduce ? 'auto' : 'smooth' }); }
+  function build() {
+    var maxScroll = track.scrollWidth - track.clientWidth;
+    pages = maxScroll > 2 ? Math.round(maxScroll / step()) + 1 : 1;
+    var html = '';
+    for (var i = 0; i < pages; i++) html += '<button type="button" data-i="' + i + '" aria-label="Avaliação ' + (i + 1) + ' de ' + pages + '"></button>';
+    dotsEl.innerHTML = html;
+    dotsEl.hidden = pages < 2;
+    mark();
+  }
+  function mark() {
+    var c = current();
+    Array.prototype.forEach.call(dotsEl.children, function (b, i) { b.setAttribute('aria-current', i === c ? 'true' : 'false'); });
+  }
+  dotsEl.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-i]'); if (b) go(+b.dataset.i);
+  });
+  var raf = 0;
+  track.addEventListener('scroll', function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(mark); }, { passive: true });
+  ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { track.addEventListener(ev, function () { paused = true; }, { passive: true }); });
+  ['mouseleave', 'focusout'].forEach(function (ev) { track.addEventListener(ev, function () { paused = false; }); });
+  var rt = 0;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(build, 150); });
+  build();
+  if (!reduce) timer = setInterval(function () {
+    if (paused || document.hidden || pages < 2) return;
+    go((current() + 1) % pages);
+  }, 6000);
+})();
+
+// Movimento: revelação ao rolar, contadores, cabeçalho, faixa, botão flutuante.
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+  function all(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  // Revelação ao rolar, com rede de segurança
+  var els = all('.reveal');
+  if (reduce || !hasIO) { els.forEach(function (el) { el.classList.add('in'); }); }
+  else {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+    setTimeout(function () {
+      els.forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); });
+    }, 2500);
+  }
+
+  // Contadores com número real e valor final garantido
+  var nums = all('[data-count]');
+  if (!reduce && hasIO) {
+    var cio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        var el = e.target, to = parseFloat(el.dataset.count), dec = +(el.dataset.decimals || 0), dur = 1300, t0 = null;
+        function fmt(v) { return v.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
+        function step(t) { if (!t0) t0 = t; var p = Math.min((t - t0) / dur, 1); el.textContent = fmt(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(step); }
+        requestAnimationFrame(step);
+        setTimeout(function () { el.textContent = fmt(to); }, dur + 600);
+      });
+    }, { threshold: .6 });
+    nums.forEach(function (n) { cio.observe(n); });
+  }
+
+  // Cabeçalho compacto, link da seção atual e botão flutuante
+  var head = document.querySelector('.site-head');
+  var fab = document.getElementById('wa-float');
+  var hero = document.getElementById('inicio');
+  var ticking = false;
+  function onScroll() {
+    ticking = false;
+    var y = window.scrollY;
+    head.classList.toggle('is-scrolled', y > 10);
+    if (fab && hero) fab.classList.toggle('show', y > hero.offsetHeight - 120);
+  }
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+  if (hasIO) {
+    var links = {};
+    all('.nav a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    var nio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var a = links[e.target.id]; if (!a) return;
+        if (e.isIntersecting) { all('.nav a.is-current').forEach(function (x) { x.classList.remove('is-current'); }); a.classList.add('is-current'); }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(links).forEach(function (id) { var s = document.getElementById(id); if (s) nio.observe(s); });
+  }
+
+  // Faixa das modalidades: duplica para emenda contínua e pausa fora da tela
+  all('.band').forEach(function (band) {
+    var track = band.querySelector('.band-track'), list = track && track.querySelector('ul');
+    if (!list) return;
+    var copy = list.cloneNode(true); copy.setAttribute('aria-hidden', 'true'); track.appendChild(copy);
+    if (hasIO) new IntersectionObserver(function (es) { es.forEach(function (e) { band.classList.toggle('is-off', !e.isIntersecting); }); }).observe(band);
+  });
 })();
 </script>
 </body>
